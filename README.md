@@ -9,7 +9,7 @@ __Platform:__ Latest stable release of GCC
 ## TODO:
 * Add CMake
 
-## Internal Dev Tips
+#### Internal Dev Tips
 Compile with `g++ -std=c++2a -L-fsanitize=address -L-fsanitize=thread blahblah.cpp`.
 * Get to this dir with path %CPP%
 * To use gcc [instrumentation](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html)
