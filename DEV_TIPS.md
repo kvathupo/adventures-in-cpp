@@ -1,5 +1,5 @@
 #### Internal Dev Tips
-Compile with `g++ -std=c++2a -L-fsanitize=address -L-fsanitize=thread blahblah.cpp`.
+Compile with `g++ -std=c++2a blahblah.cpp`.
 * Get to this dir with path %CPP%
 * To use gcc [instrumentation](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html)
 (sanitizers), prepend -L to the flag
