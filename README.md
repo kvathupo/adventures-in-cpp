@@ -5,6 +5,6 @@ own learning!
 
 __Currently working in:__ C++17
 
-__Platform:__ Latest stable release of GCC
+__Platform:__ GCC 8
 ## TODO:
 * Add CMake
