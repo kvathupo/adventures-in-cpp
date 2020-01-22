@@ -19,6 +19,9 @@ void foo(int* val) {
 void foo(float* val) {
     std::cout << "foo: obtained " << *val << std::endl;
 }
+void foo(std::nullptr_t val) {
+    std::cout << "foo: obtained null pointer" << std::endl;
+}
 
 int main() {
     float *pi = new float;
@@ -30,9 +33,11 @@ int main() {
 
     foo(pi);
     foo(int_pi);
+    foo(nullptr);
 #elif !WILL_COMPILE
     foo(static_cast<int*>(pi));         // No inheritance relationship betwen these pointers
-    foo(nullptr);                       // call of overloaded ‘foo(std::nullptr_t)’ is ambiguous
+    foo(nullptr);                       // Without overloading with nullpter_t, we get
+                                        // call of overloaded ‘foo(std::nullptr_t)’ is ambiguous
 #endif
     delete pi;
     delete int_pi;
