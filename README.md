@@ -7,4 +7,8 @@ __Currently working in:__ C++17
 
 __Platform:__ GCC 8
 ## TODO:
+* Add lesson on how virtual functions play with inheritance
+    * Dynamic vs static binding
+    * Impact on destructors
+* Add lesson on nested classes
 * Add CMake
