@@ -7,6 +7,7 @@ __Currently working in:__ C++17
 
 __Platform:__ GCC 8
 ## TODO:
+* Add lesson on `std::endl` and buffer flushing
 * Add lesson on how virtual functions play with inheritance
     * Dynamic vs static binding
     * Impact on destructors
