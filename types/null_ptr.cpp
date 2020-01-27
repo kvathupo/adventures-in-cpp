@@ -27,7 +27,7 @@ int main() {
     *pi = 3.14;
     
 #if WILL_COMPILE
-    int *int_pi = new int;
+    int* int_pi = new int;
     *int_pi = static_cast<int>(*pi);
 
     foo(pi);
