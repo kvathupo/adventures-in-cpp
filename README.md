@@ -14,3 +14,4 @@ __Platform:__ GCC 8
     * Impact on destructors
 * Add lesson on nested classes
 * Add CMake
+* Add lesson on 11 attributes
