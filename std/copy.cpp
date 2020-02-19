@@ -18,7 +18,7 @@ int main() {
     std::cout << "Size of a = " << a.size() << std::endl;
     std::cout << "Size of b = " << b.size() << std::endl;
 
-#if !WILL_RUN
+#if WILL_RUN
     b.reserve(a.size());
     std::cout << "After reserving" << std::endl;
     std::cout << "Size of a = " << a.size() << std::endl;
@@ -31,10 +31,10 @@ int main() {
     std::cout << "Size of b = " << b.size() << std::endl;
     return 0;
 }
-#elif WILL_RUN
+// Will run, but not as intended (won't copy elements)
+#elif !WILL_RUN
     std::copy(a.begin(), a.end(), std::back_inserter(b));                       // Do I need to reserve?
-                                                                    // Yes.
-
+                                                                                // Yes.
     std::cout << "After invoking std::copy()" << std::endl;
     std::cout << "Size of a = " << a.size() << std::endl;
     std::cout << "Size of b = " << b.size() << std::endl;
