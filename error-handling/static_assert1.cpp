@@ -46,7 +46,6 @@ int main() {
         std::cout << e.what() << std::endl;
         return 0;
     }
-#elif !WILL_COMPILE
 #endif
     std::cout << "Do I reach here when I have an exception?\n";
     return 0;
