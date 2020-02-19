@@ -55,6 +55,7 @@ int main() {
     for (auto i = 1; i <= 2; i++) {
         (*v_1).push_back(i);
         (*v_2).push_back(i);
+        (*v_3).push_back(i);
     }
 
     std::cout << "Printing Vector 1 correctly:" << std::endl;
