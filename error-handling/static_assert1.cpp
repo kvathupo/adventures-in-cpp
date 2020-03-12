@@ -38,7 +38,6 @@ private:
 };
 
 int main() {
-#if WILL_COMPILE
     try {
         Basket my_basket(3, -10);
     } catch (const std::invalid_argument& e) {  // Require C++17, recommended
@@ -46,7 +45,6 @@ int main() {
         std::cout << e.what() << std::endl;
         return 0;
     }
-#endif
     std::cout << "Do I reach here when I have an exception?\n";
     return 0;
 }
