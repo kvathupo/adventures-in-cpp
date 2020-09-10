@@ -1,1 +1,2 @@
-# TODO: A description of directories and files, with the lessons they teach
+# Classes 
+* `enums.cpp` - Covers enumerated classes
