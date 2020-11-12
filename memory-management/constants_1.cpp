@@ -1,74 +1,83 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <algorithm>
+#include <string>
+#include <type_traits>
 
 /*
-  Demonstration:
-    - Placement of const for pointers
-    - Smart pointers not needing deletion (RAII)
-    - Pass by value for pointers
+ *  Demonstration:
+ *      - Placement of const for pointers
+ *      - Smart pointers not needing deletion (RAII)
+ *      - Pass by value for pointers
 */
 
-/* 
-    Pointer data read-only. Pointer is modifiable.
-*/
+// Modifiable pointer to read-only data
 template<typename T>
-void printVect(const std::vector<T>* vct) {
-    std::cout << "Now printing out vector" << std::endl;
-    for (T ele : *vct) {
-        std::cout << ele << std::endl;
+void print_vect(const std::vector<T>* v, std::string v_name) {
+    if (v == nullptr) {
+        std::cout << "Can't print nullptr!\n";
+        return;
     }
-    std::cout << "Done printing out vector" << std::endl;
+
+    std::cout << v_name << " = {";
+    for (auto i = 0; i < v->size(); i++) {
+        if (i + 1 == v->size())
+            std::cout << (*v)[i] << "}\n";
+        else 
+            std::cout << (*v)[i] << ", ";
+    }
 }
 
-/*
-    Pointer data read-only. Pointer is modifiable.
-*/
+// Modifiable pointer to read-only data
 template<typename T>
-void makeVectNull(const std::vector<T>* vct) {
-    std::cout << "Now setting to nullptr" << std::endl;
-    vct = nullptr;
+void nullify_vect(const std::vector<T>* v, std::string v_name) {
+    v = nullptr;
+    std::cout << "Just set " << v_name << " to nullptr!\n";
 }
 
-/* 
-    Pointer data modifiable. Pointer is read-only.
-
-    Will compile, but fail at run time (modifying pointer we promised to keep
-    constant).
-*/
-template<typename T>
-void makeVectNull2(std::vector<T>* const vct) {
-    std::cout << "Now setting to nullptr" << std::endl;
-    vct = nullptr;
-    std::cout << "Done setting to nullptr" << std::endl;
+// Read-only pointer to modifiable data
+// Run-time error if used
+template<typename T,
+    typename = std::enable_if<std::is_constructible<T>::value>>
+void nullify_vect_again(std::vector<T>* const v, std::string v_name) {
+    T t{};
+    std::fill(v->begin(), v->end(), t);
+    std::cout << "Just filled " << v_name << " with default values!\n";
 }
 
 int main() {
-    std::vector<int>* v_1 = new std::vector<int>;        // Raw pointers strongly discouraged
-                                                         // Correct initialization
-    std::vector<int>* v_2 = new std::vector<int>(2);        // Raw pointers strongly discouraged
-                                                         // Incorrect initialization
-                                                         // push_back allocates memory for us!
-                                                         // (see what happens with printVect)
-    std::unique_ptr<std::vector<int>> v_3(new std::vector<int>(2));     // recommended
+    std::vector<int>* dumb_v = new std::vector<int>(5);
+    std::unique_ptr<std::vector<int>> smart_v(new std::vector<int>(5));
+    
+    std::generate(dumb_v->begin(), dumb_v->end(), 
+        []() {
+            static int i = 0;
+            return i++;
+        });
+    std::generate(smart_v->begin(), smart_v->end(), 
+        []() {
+            static int i = 0;
+            return i--;
+        });
 
-    for (auto i = 1; i <= 2; i++) {
-        (*v_1).push_back(i);
-        (*v_2).push_back(i);
-        (*v_3).push_back(i);
-    }
 
-    std::cout << "Printing Vector 1 correctly:" << std::endl;
-    printVect(v_1);
-    std::cout << "Printing Vector 2 incorrectly (allocated 2 extra spaces!):" << std::endl;
-    printVect(v_2);
-//    printVect(v_3);                   // Will not compile (type mismatch)
-    makeVectNull(v_1);                  // Will compile without memory leak 
-                                        // (We pass the pointer by VALUE!)
+    print_vect(dumb_v, "dumb_v");
+//  Can't pass smart pointer where raw pointer is expected!
+//    print_vect(smart_v, "smart_v");   
+    print_vect(smart_v.get(), "smart_v");
 
-    delete v_1;
-    delete v_2;                         // Need to delete to prevent memory leak
-                                        // Observe no such need to delete unique_ptr
-                                        // (RAII)
+    std::cout << "\n";
+    nullify_vect(dumb_v, "dumb_v");
+    print_vect(dumb_v, "dumb_v");
+    
+    std::cout << "\n";
+    std::cout << "We were able to print \"dumb_v\" since we passed by value :^)\n";
+
+    std::cout << "\n";
+    nullify_vect_again(dumb_v, "dumb_v");
+    print_vect(dumb_v, "dumb_v");
+
+    delete dumb_v;
     return 0;
 }
